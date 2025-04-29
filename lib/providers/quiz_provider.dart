@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../modes/quiz.dart';
-import '../services/firestore_service.dart';
+import '../services/api_service.dart';
 
 class QuizProvider with ChangeNotifier {
-  final FirestoreService _firestoreService = FirestoreService();
+  final ApiService _apiService = ApiService();
   List<Quiz> _quizzes = [];
   bool _isLoading = false;
 
@@ -14,15 +14,13 @@ class QuizProvider with ChangeNotifier {
     try {
       _isLoading = true;
       notifyListeners();
-
-      _quizzes = await _firestoreService.getQuizzes();
+      _quizzes = await _apiService.fetchQuizzes();
       _isLoading = false;
       notifyListeners();
     } catch (e) {
       _isLoading = false;
       notifyListeners();
       print('Error fetching quizzes: $e');
-      throw Exception('Failed to fetch quizzes: $e');
     }
   }
 }

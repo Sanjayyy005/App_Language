@@ -1,18 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../modes/quiz.dart';
+import '../modes/user_progress.dart';
 
-Future<List<Quiz>> getQuizzes() async {
-  try {
-    QuerySnapshot snapshot = await _db.collection('quizzes').get();
-    return snapshot.docs.map((doc) {
-      return Quiz(
-        id: doc.id,
-        question: doc['question'],
-        options: List<String>.from(doc['options']),
-        correctAnswer: doc['correctAnswer'],
-      );
-    }).toList();
-  } catch (e) {
-    throw Exception('Failed to fetch quizzes: $e');
+class FirestoreService {
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  Future<void> saveUserProgress(UserProgress progress) async {
+    try {
+      await _db
+          .collection('user_progress')
+          .doc(progress.userId)
+          .set(progress.toMap());
+    } catch (e) {
+      throw Exception('Failed to save user progress: $e');
+    }
+  }
+
+  Future<UserProgress?> getUserProgress(String userId) async {
+    try {
+      DocumentSnapshot doc =
+      await _db.collection('user_progress').doc(userId).get();
+      if (doc.exists) {
+        return UserProgress.fromMap(doc.data() as Map<String, dynamic>);
+      }
+      return null;
+    } catch (e) {
+      throw Exception('Failed to fetch user progress: $e');
+    }
   }
 }

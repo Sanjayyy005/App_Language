@@ -4,7 +4,7 @@ import '../modes/lesson.dart';
 import '../modes/quiz.dart';
 
 class ApiService {
-  final String baseUrl = 'https://my-json-server.typicode.com/<your-username>/language-learning';
+  final String baseUrl = 'https://dummyjson.com/comments';
 
   Future<List<Lesson>> fetchLessons() async {
     final response = await http.get(Uri.parse('$baseUrl/lessons'));

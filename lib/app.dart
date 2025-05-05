@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'routes/app_routes.dart';
 
-class language_app extends StatelessWidget {
-  const language_app({super.key});
+class LanguageApp extends StatelessWidget {
+  const LanguageApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +14,7 @@ class language_app extends StatelessWidget {
       ),
       initialRoute: AppRoutes.login,
       onGenerateRoute: AppRoutes.generateRoute,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

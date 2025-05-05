@@ -24,7 +24,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LessonProvider()),
         ChangeNotifierProvider(create: (_) => QuizProvider()),
       ],
-      child: const language_app(),
+      child: const LanguageApp(),
+
     );
   }
 }

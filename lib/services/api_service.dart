@@ -4,25 +4,33 @@ import '../modes/lesson.dart';
 import '../modes/quiz.dart';
 
 class ApiService {
-  final String baseUrl = 'https://dummyjson.com/comments';
+  final String baseUrl = 'http://localhost:3001';
 
   Future<List<Lesson>> fetchLessons() async {
-    final response = await http.get(Uri.parse('$baseUrl/lessons'));
-    if (response.statusCode == 200) {
-      List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((data) => Lesson.fromJson(data)).toList();
-    } else {
-      throw Exception('Failed to load lessons');
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/lessons'));
+      if (response.statusCode == 200) {
+        List jsonResponse = json.decode(response.body);
+        return jsonResponse.map((data) => Lesson.fromJson(data)).toList();
+      } else {
+        throw Exception('Failed to load lessons: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error fetching lessons: $e');
     }
   }
 
   Future<List<Quiz>> fetchQuizzes() async {
-    final response = await http.get(Uri.parse('$baseUrl/quizzes'));
-    if (response.statusCode == 200) {
-      List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((data) => Quiz.fromJson(data)).toList();
-    } else {
-      throw Exception('Failed to load quizzes');
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/quizzes'));
+      if (response.statusCode == 200) {
+        List jsonResponse = json.decode(response.body);
+        return jsonResponse.map((data) => Quiz.fromJson(data)).toList();
+      } else {
+        throw Exception('Failed to load quizzes: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error fetching quizzes: $e');
     }
   }
 }

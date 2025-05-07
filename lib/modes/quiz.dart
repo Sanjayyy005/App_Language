@@ -1,5 +1,5 @@
 class Quiz {
-  final String id;
+  final int id;
   final String question;
   final List<String> options;
   final String correctAnswer;
@@ -13,10 +13,15 @@ class Quiz {
 
   factory Quiz.fromJson(Map<String, dynamic> json) {
     return Quiz(
-      id: json['id'].toString(),
-      question: json['question'],
+      id: json['id'] as int,
+      question: json['question'] as String,
       options: List<String>.from(json['options']),
-      correctAnswer: json['correctAnswer'],
+      correctAnswer: json['correctAnswer'] as String,
     );
+  }
+
+  @override
+  String toString() {
+    return 'Quiz(id: $id, question: $question)';
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../providers/lesson_provider.dart';
+import '../providers/quiz_provider.dart';
 import '../routes/app_routes.dart';
 import '../widgets/lesson_card.dart';
 
@@ -16,9 +17,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // Fetch lessons when the screen loads
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<LessonProvider>(context, listen: false).fetchLessons();
+      final lessonProvider = Provider.of<LessonProvider>(context, listen: false);
+      final quizProvider = Provider.of<QuizProvider>(context, listen: false);
+      if (lessonProvider.lessons.isEmpty) lessonProvider.fetchLessons();
+      if (quizProvider.quizzes.isEmpty) quizProvider.fetchQuizzes();
     });
   }
 
@@ -60,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (provider.isLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
+                print('Lessons list: ${provider.lessons}'); // Debug print
                 if (provider.lessons.isEmpty) {
                   return const Center(
                     child: Text(

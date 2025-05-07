@@ -4,13 +4,13 @@
       "id": 1,
       "title": "Basic Greetings",
       "content": "Hello: Hola, Goodbye: Adios",
-      "audioUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      "audioUrl": "\"C:\\Users\\pc\\StudioProjects\\language_app\\assets\\audio\\greetings.mp3\""
     },
     {
       "id": 2,
       "title": "Numbers 1-10",
       "content": "One: Uno, Two: Dos, Three: Tres",
-      "audioUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+      "audioUrl": "\"C:\\Users\\pc\\StudioProjects\\language_app\\assets\\audio\\numbers.mp3\""
     }
   ],
   "quizzes": [

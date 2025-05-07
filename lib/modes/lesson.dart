@@ -1,5 +1,5 @@
 class Lesson {
-  final String id;
+  final int id;
   final String title;
   final String content;
   final String audioUrl;
@@ -13,10 +13,15 @@ class Lesson {
 
   factory Lesson.fromJson(Map<String, dynamic> json) {
     return Lesson(
-      id: json['id'].toString(),
-      title: json['title'],
-      content: json['content'],
-      audioUrl: json['audioUrl'],
+      id: json['id'] as int,
+      title: json['title'] as String,
+      content: json['content'] as String,
+      audioUrl: json['audioUrl'] as String,
     );
+  }
+
+  @override
+  String toString() {
+    return 'Lesson(id: $id, title: $title)';
   }
 }

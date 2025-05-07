@@ -7,10 +7,26 @@ import '../providers/quiz_provider.dart';
 import '../services/firestore_service.dart';
 import '../widgets/quiz_question.dart';
 
-class QuizScreen extends StatelessWidget {
+class QuizScreen extends StatefulWidget {
   final String quizId;
 
   const QuizScreen({super.key, required this.quizId});
+
+  @override
+  _QuizScreenState createState() => _QuizScreenState();
+}
+
+class _QuizScreenState extends State<QuizScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final quizProvider = Provider.of<QuizProvider>(context, listen: false);
+      if (quizProvider.quizzes.isEmpty) {
+        quizProvider.fetchQuizzes();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +41,23 @@ class QuizScreen extends StatelessWidget {
           if (provider.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
+
+          // Find the quiz, with a fallback if not found
           final quiz = provider.quizzes.firstWhere(
-                (q) => q.id == quizId,
+                (q) => q.id.toString() == widget.quizId,
             orElse: () => Quiz(
-              id: '',
+              id: -1,
               question: 'Quiz not found',
               options: [],
               correctAnswer: '',
             ),
           );
+
+          // Check if the quiz was not found
+          if (quiz.id == -1) {
+            return const Center(child: Text('Quiz not found'));
+          }
+
           return QuizQuestion(
             quiz: quiz,
             onAnswer: (isCorrect) async {
@@ -44,8 +68,8 @@ class QuizScreen extends StatelessWidget {
                   List<String> completedQuizzes =
                       existingProgress?.completedQuizzes ?? [];
 
-                  if (!completedQuizzes.contains(quizId)) {
-                    completedQuizzes.add(quizId);
+                  if (!completedQuizzes.contains(widget.quizId)) {
+                    completedQuizzes.add(widget.quizId);
                   }
 
                   final progress = UserProgress(

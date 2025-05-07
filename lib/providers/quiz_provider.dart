@@ -15,6 +15,7 @@ class QuizProvider with ChangeNotifier {
       _isLoading = true;
       notifyListeners();
       _quizzes = await _apiService.fetchQuizzes();
+      print('Fetched quizzes: $_quizzes');
       _isLoading = false;
       notifyListeners();
     } catch (e) {
